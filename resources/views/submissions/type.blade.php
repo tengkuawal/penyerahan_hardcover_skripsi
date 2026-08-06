@@ -1,0 +1,155 @@
+@extends('layouts.app')
+
+@section('title', 'Kategori ' . $title)
+@section('page_heading', 'Penyerahan Hardcover - ' . $title)
+
+@section('content')
+<!-- Filter Navigation Tabs -->
+<div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+    <div class="btn-group p-1 bg-white rounded-3 border shadow-sm" role="group">
+        <a href="{{ route('submissions.index') }}" class="btn btn-sm btn-light border-0">
+            <i class="bi bi-collection-fill me-1"></i> Semua Data
+        </a>
+        <a href="{{ route('submissions.byType', 'skripsi') }}" class="btn btn-sm {{ $type == 'skripsi' ? 'btn-warning text-dark fw-bold' : 'btn-light border-0' }}">
+            <i class="bi bi-bookmark-star-fill text-warning me-1"></i> Skripsi (Orange)
+        </a>
+        <a href="{{ route('submissions.byType', 'kkp') }}" class="btn btn-sm {{ $type == 'kkp' ? 'btn-success fw-bold' : 'btn-light border-0' }}">
+            <i class="bi bi-journal-check text-success me-1"></i> KKP
+        </a>
+        <a href="{{ route('submissions.byType', 'ta') }}" class="btn btn-sm {{ $type == 'ta' ? 'btn-primary fw-bold' : 'btn-light border-0' }}">
+            <i class="bi bi-journal-bookmark-fill text-primary me-1"></i> TA (Biru)
+        </a>
+    </div>
+
+    <a href="{{ route('submissions.create') }}" class="btn btn-primary-custom">
+        <i class="bi bi-plus-circle me-1"></i> Catat Penyerahan Baru
+    </a>
+</div>
+
+<div class="card card-custom">
+    <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
+        <div>
+            <h6 class="fw-bold mb-0 text-slate-800">
+                <i class="bi bi-tag-fill me-2 {{ $type == 'skripsi' ? 'text-warning' : ($type == 'kkp' ? 'text-success' : 'text-primary') }}"></i> 
+                Halaman Hardcover: <span class="text-uppercase fw-extrabold">{{ $title }}</span>
+            </h6>
+            @if($type == 'skripsi')
+                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Proposal Skripsi Menggunakan Cover Warna <strong>Orange</strong></small>
+            @elseif($type == 'ta')
+                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Proposal Tugas Akhir Menggunakan Cover Warna <strong>Biru</strong></small>
+            @else
+                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Laporan Kuliah Kerja Praktek (KKP)</small>
+            @endif
+        </div>
+        <span class="badge bg-dark rounded-pill fs-7 px-3 py-2">{{ count($submissions) }} Berkas</span>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-custom table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama Mahasiswa</th>
+                        <th>Judul Hardcover</th>
+                        <th>Tanggal Penyerahan</th>
+                        <th>Status Penyerahan</th>
+                        <th>Petugas Penerima</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($submissions as $sub)
+                        <tr>
+                            <td class="fw-bold text-slate-800">{{ $sub->student->nim ?? '-' }}</td>
+                            <td>{{ $sub->student->nama ?? '-' }}</td>
+                            <td class="fw-semibold">{{ $sub->judul }}</td>
+                            <td>{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d/m/Y') : '-' }}</td>
+                            <td>
+                                @if(in_array(strtolower($sub->status), ['sudah', 'sudah menyerahkan']))
+                                    <span class="badge badge-sudah px-2 py-1"><i class="bi bi-check-circle me-1"></i> Sudah</span>
+                                @else
+                                    <span class="badge badge-belum px-2 py-1"><i class="bi bi-dash-circle me-1"></i> Belum</span>
+                                @endif
+                            </td>
+                            <td>{{ $sub->petugas_penerima ?? '-' }}</td>
+                            <td class="text-center">
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" class="btn btn-light border text-primary" data-bs-toggle="modal" data-bs-target="#detailTypeModal{{ $sub->id }}" title="Detail Keseluruhan">
+                                        <i class="bi bi-eye"></i> Detail
+                                    </button>
+                                    <a href="{{ route('submissions.edit', $sub) }}" class="btn btn-light border text-warning" title="Edit Data">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Modal Detail -->
+                        <div class="modal fade" id="detailTypeModal{{ $sub->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content rounded-4 border-0 shadow">
+                                    <div class="modal-header bg-dark text-white rounded-top-4">
+                                        <h5 class="modal-title fw-bold"><i class="bi bi-journal-check me-2"></i> Detail Keseluruhan Penyerahan {{ strtoupper($type) }}</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4">
+                                        <div class="row g-4">
+                                            <div class="col-md-6 border-end">
+                                                <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-badge me-2"></i> Data Mahasiswa</h6>
+                                                <table class="table table-borderless table-sm mb-0">
+                                                    <tr><th width="40%" class="text-muted">NIM:</th><td class="fw-bold">{{ $sub->student->nim ?? '-' }}</td></tr>
+                                                    <tr><th class="text-muted">Nama:</th><td class="fw-bold">{{ $sub->student->nama ?? '-' }}</td></tr>
+                                                    <tr><th class="text-muted">Angkatan:</th><td>{{ $sub->student->angkatan ?? '-' }}</td></tr>
+                                                    <tr><th class="text-muted">No. Tlp:</th><td>{{ $sub->student->no_tlp ?? '-' }}</td></tr>
+                                                    <tr><th class="text-muted">Email:</th><td>{{ $sub->student->email ?? '-' }}</td></tr>
+                                                    <tr><th class="text-muted">Status Lulus:</th><td><span class="badge bg-secondary">{{ $sub->student->status_lulus ?? '-' }}</span></td></tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h6 class="fw-bold text-indigo mb-3" style="color: #4f46e5;"><i class="bi bi-journal-bookmark me-2"></i> Detail Penyerahan</h6>
+                                                <table class="table table-borderless table-sm mb-0">
+                                                    <tr><th width="45%" class="text-muted">Kategori:</th>
+                                                        <td>
+                                                            @if($type == 'skripsi')
+                                                                <span class="badge badge-skripsi">Skripsi (Cover Orange)</span>
+                                                            @elseif($type == 'kkp')
+                                                                <span class="badge badge-kkp">KKP</span>
+                                                            @else
+                                                                <span class="badge badge-ta">TA (Cover Biru)</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    <tr><th class="text-muted">Judul:</th><td class="fw-semibold">{{ $sub->judul }}</td></tr>
+                                                    <tr><th class="text-muted">Tgl Penyerahan:</th><td>{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d F Y') : 'Belum Diserahkan' }}</td></tr>
+                                                    <tr><th class="text-muted">Status Penyerahan:</th>
+                                                        <td>
+                                                            @if(in_array(strtolower($sub->status), ['sudah', 'sudah menyerahkan']))
+                                                                <span class="badge badge-sudah">Sudah Menyerahkan</span>
+                                                            @else
+                                                                <span class="badge badge-belum">Belum Menyerahkan</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                    <tr><th class="text-muted">Petugas Penerima:</th><td>{{ $sub->petugas_penerima ?? '-' }}</td></tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer bg-light rounded-bottom-4">
+                                        <a href="{{ route('requirements') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-check me-1"></i> Lihat Form Persyaratan</a>
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">Belum ada data penyerahan untuk tipe <strong>{{ strtoupper($type) }}</strong>.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection
