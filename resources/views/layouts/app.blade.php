@@ -208,6 +208,7 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             padding: 0.85rem 1rem;
+            vertical-align: middle;
         }
 
         .table-custom td {

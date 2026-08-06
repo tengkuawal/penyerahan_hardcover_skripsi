@@ -59,30 +59,30 @@
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-custom table-hover mb-0">
+            <table class="table table-custom table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>NIM</th>
-                        <th>Nama Mahasiswa</th>
+                        <th class="text-nowrap">NIM</th>
+                        <th class="text-nowrap">Nama Mahasiswa</th>
                         <th>Judul Hardcover</th>
-                        <th>Tipe</th>
-                        <th>Tgl Penyerahan</th>
-                        <th>Status</th>
-                        <th>Petugas Penerima</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-nowrap">Tipe</th>
+                        <th class="text-nowrap">Tgl Penyerahan</th>
+                        <th class="text-nowrap">Status</th>
+                        <th class="text-nowrap">Petugas Penerima</th>
+                        <th class="text-center text-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($submissions as $sub)
                         <tr>
-                            <td class="fw-bold text-slate-800">{{ $sub->student->nim ?? '-' }}</td>
-                            <td>{{ $sub->student->nama ?? '-' }}</td>
+                            <td class="fw-bold text-slate-800 text-nowrap">{{ $sub->student->nim ?? '-' }}</td>
+                            <td class="text-nowrap">{{ $sub->student->nama ?? '-' }}</td>
                             <td>
                                 <a href="javascript:void(0)" class="text-decoration-none text-dark fw-semibold" data-bs-toggle="modal" data-bs-target="#detailSubModal{{ $sub->id }}">
                                     {{ $sub->judul }}
                                 </a>
                             </td>
-                            <td>
+                            <td class="text-nowrap">
                                 @if(strtolower($sub->tipe) == 'skripsi')
                                     <a href="{{ route('submissions.byType', 'skripsi') }}" class="badge badge-skripsi text-decoration-none">Skripsi</a>
                                 @elseif(strtolower($sub->tipe) == 'kkp')
@@ -91,17 +91,17 @@
                                     <a href="{{ route('submissions.byType', 'ta') }}" class="badge badge-ta text-decoration-none">TA</a>
                                 @endif
                             </td>
-                            <td>{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d/m/Y') : '-' }}</td>
-                            <td>
+                            <td class="text-nowrap">{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d/m/Y') : '-' }}</td>
+                            <td class="text-nowrap">
                                 @if(in_array(strtolower($sub->status), ['sudah', 'sudah menyerahkan']))
                                     <span class="badge badge-sudah px-2 py-1"><i class="bi bi-check-circle me-1"></i> Sudah</span>
                                 @else
                                     <span class="badge badge-belum px-2 py-1"><i class="bi bi-dash-circle me-1"></i> Belum</span>
                                 @endif
                             </td>
-                            <td>{{ $sub->petugas_penerima ?? '-' }}</td>
-                            <td class="text-center">
-                                <div class="btn-group btn-group-sm">
+                            <td class="text-nowrap">{{ $sub->petugas_penerima ?? '-' }}</td>
+                            <td class="text-center text-nowrap">
+                                <div class="btn-group btn-group-sm flex-nowrap">
                                     <button type="button" class="btn btn-light border text-primary" data-bs-toggle="modal" data-bs-target="#detailSubModal{{ $sub->id }}" title="Detail Keseluruhan">
                                         <i class="bi bi-eye"></i> Detail
                                     </button>
@@ -118,69 +118,6 @@
                                 </div>
                             </td>
                         </tr>
-
-                        <!-- Modal Detail Keseluruhan Penyerahan -->
-                        <div class="modal fade" id="detailSubModal{{ $sub->id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content rounded-4 border-0 shadow">
-                                    <div class="modal-header bg-dark text-white rounded-top-4">
-                                        <h5 class="modal-title fw-bold"><i class="bi bi-journal-check me-2"></i> Detail Keseluruhan Penyerahan Hardcover</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-4">
-                                        <div class="row g-4">
-                                            <div class="col-md-6 border-end">
-                                                <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-circle me-2"></i> Identitas Mahasiswa</h6>
-                                                <table class="table table-borderless table-sm mb-0">
-                                                    <tr><th width="40%" class="text-muted">NIM:</th><td class="fw-bold">{{ $sub->student->nim ?? '-' }}</td></tr>
-                                                    <tr><th class="text-muted">Nama:</th><td class="fw-bold">{{ $sub->student->nama ?? '-' }}</td></tr>
-                                                    <tr><th class="text-muted">Angkatan:</th><td>{{ $sub->student->angkatan ?? '-' }}</td></tr>
-                                                    <tr><th class="text-muted">No. Tlp:</th><td>{{ $sub->student->no_tlp ?? '-' }}</td></tr>
-                                                    <tr><th class="text-muted">Email:</th><td>{{ $sub->student->email ?? '-' }}</td></tr>
-                                                    <tr><th class="text-muted">Status Lulus:</th>
-                                                        <td>
-                                                            <span class="badge bg-secondary">{{ $sub->student->status_lulus ?? '-' }}</span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h6 class="fw-bold text-indigo mb-3" style="color: #4f46e5;"><i class="bi bi-file-earmark-code me-2"></i> Informasi Hardcover</h6>
-                                                <table class="table table-borderless table-sm mb-0">
-                                                    <tr><th width="45%" class="text-muted">Kategori Hardcover:</th>
-                                                        <td>
-                                                            @if(strtolower($sub->tipe) == 'skripsi')
-                                                                <span class="badge badge-skripsi">Skripsi (Cover Orange)</span>
-                                                            @elseif(strtolower($sub->tipe) == 'kkp')
-                                                                <span class="badge badge-kkp">KKP</span>
-                                                            @else
-                                                                <span class="badge badge-ta">TA (Cover Biru)</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr><th class="text-muted">Judul Hardcover:</th><td class="fw-semibold text-wrap">{{ $sub->judul }}</td></tr>
-                                                    <tr><th class="text-muted">Tgl Penyerahan:</th><td>{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d F Y') : 'Belum Diserahkan' }}</td></tr>
-                                                    <tr><th class="text-muted">Status:</th>
-                                                        <td>
-                                                            @if(in_array(strtolower($sub->status), ['sudah', 'sudah menyerahkan']))
-                                                                <span class="badge badge-sudah">Sudah Menyerahkan</span>
-                                                            @else
-                                                                <span class="badge badge-belum">Belum Menyerahkan</span>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    <tr><th class="text-muted">Petugas Penerima:</th><td>{{ $sub->petugas_penerima ?? '-' }}</td></tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer bg-light rounded-bottom-4">
-                                        <a href="{{ route('requirements') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-check me-1"></i> Form Persyaratan Berkas</a>
-                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @empty
                         <tr>
                             <td colspan="8" class="text-center py-4 text-muted">Tidak ada data penyerahan hardcover yang cocok dengan filter.</td>
@@ -191,6 +128,71 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Detail Keseluruhan Penyerahan -->
+@foreach($submissions as $sub)
+    <div class="modal fade" id="detailSubModal{{ $sub->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-dark text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-journal-check me-2"></i> Detail Keseluruhan Penyerahan Hardcover</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6 border-end">
+                            <h6 class="fw-bold text-primary mb-3"><i class="bi bi-person-circle me-2"></i> Identitas Mahasiswa</h6>
+                            <table class="table table-borderless table-sm mb-0">
+                                <tr><th width="40%" class="text-muted">NIM:</th><td class="fw-bold">{{ $sub->student->nim ?? '-' }}</td></tr>
+                                <tr><th class="text-muted">Nama:</th><td class="fw-bold">{{ $sub->student->nama ?? '-' }}</td></tr>
+                                <tr><th class="text-muted">Angkatan:</th><td>{{ $sub->student->angkatan ?? '-' }}</td></tr>
+                                <tr><th class="text-muted">No. Tlp:</th><td>{{ $sub->student->no_tlp ?? '-' }}</td></tr>
+                                <tr><th class="text-muted">Email:</th><td>{{ $sub->student->email ?? '-' }}</td></tr>
+                                <tr><th class="text-muted">Status Lulus:</th>
+                                    <td>
+                                        <span class="badge bg-secondary">{{ $sub->student->status_lulus ?? '-' }}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold text-indigo mb-3" style="color: #4f46e5;"><i class="bi bi-file-earmark-code me-2"></i> Informasi Hardcover</h6>
+                            <table class="table table-borderless table-sm mb-0">
+                                <tr><th width="45%" class="text-muted">Kategori Hardcover:</th>
+                                    <td>
+                                        @if(strtolower($sub->tipe) == 'skripsi')
+                                            <span class="badge badge-skripsi">Skripsi (Cover Orange)</span>
+                                        @elseif(strtolower($sub->tipe) == 'kkp')
+                                            <span class="badge badge-kkp">KKP</span>
+                                        @else
+                                            <span class="badge badge-ta">TA (Cover Biru)</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr><th class="text-muted">Judul Hardcover:</th><td class="fw-semibold text-wrap">{{ $sub->judul }}</td></tr>
+                                <tr><th class="text-muted">Tgl Penyerahan:</th><td>{{ $sub->tanggal_penyerahan ? $sub->tanggal_penyerahan->format('d F Y') : 'Belum Diserahkan' }}</td></tr>
+                                <tr><th class="text-muted">Status:</th>
+                                    <td>
+                                        @if(in_array(strtolower($sub->status), ['sudah', 'sudah menyerahkan']))
+                                            <span class="badge badge-sudah">Sudah Menyerahkan</span>
+                                        @else
+                                            <span class="badge badge-belum">Belum Menyerahkan</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr><th class="text-muted">Petugas Penerima:</th><td>{{ $sub->petugas_penerima ?? '-' }}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light rounded-bottom-4">
+                    <a href="{{ route('requirements') }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-check me-1"></i> Form Persyaratan Berkas</a>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
 
 <!-- Mahasiswa Terdaftar yang Belum Ada Catatan Penyerahan sama sekali (hanya muncul saat filter status=belum) -->
 @if(request('status') == 'belum' && count($studentsWithoutSubmissions) > 0)

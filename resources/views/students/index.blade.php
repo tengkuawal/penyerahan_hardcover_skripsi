@@ -16,35 +16,35 @@
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-custom table-hover mb-0">
+            <table class="table table-custom table-hover align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>NIM</th>
-                        <th>Nama Mahasiswa</th>
-                        <th>Angkatan</th>
-                        <th>No. Telepon</th>
-                        <th>Email</th>
-                        <th>Status Lulus</th>
-                        <th class="text-center">Aksi</th>
+                        <th class="text-nowrap">NIM</th>
+                        <th class="text-nowrap">Nama Mahasiswa</th>
+                        <th class="text-nowrap">Angkatan</th>
+                        <th class="text-nowrap">No. Telepon</th>
+                        <th class="text-nowrap">Email</th>
+                        <th class="text-nowrap">Status Lulus</th>
+                        <th class="text-center text-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($students as $student)
                         <tr>
-                            <td class="fw-bold text-slate-800">{{ $student->nim }}</td>
-                            <td>{{ $student->nama }}</td>
-                            <td><span class="badge bg-light text-dark border">{{ $student->angkatan }}</span></td>
-                            <td>{{ $student->no_tlp }}</td>
-                            <td>{{ $student->email }}</td>
-                            <td>
+                            <td class="fw-bold text-slate-800 text-nowrap">{{ $student->nim }}</td>
+                            <td class="text-nowrap">{{ $student->nama }}</td>
+                            <td class="text-nowrap"><span class="badge bg-light text-dark border">{{ $student->angkatan }}</span></td>
+                            <td class="text-nowrap">{{ $student->no_tlp }}</td>
+                            <td class="text-nowrap">{{ $student->email }}</td>
+                            <td class="text-nowrap">
                                 @if(strtolower($student->status_lulus) == 'lulus')
                                     <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Lulus</span>
                                 @else
                                     <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1">Belum Lulus</span>
                                 @endif
                             </td>
-                            <td class="text-center">
-                                <div class="btn-group btn-group-sm">
+                            <td class="text-center text-nowrap">
+                                <div class="btn-group btn-group-sm flex-nowrap">
                                     <button type="button" class="btn btn-light border text-primary" data-bs-toggle="modal" data-bs-target="#studentModal{{ $student->id }}" title="Detail Keseluruhan">
                                         <i class="bi bi-eye"></i> Detail
                                     </button>
@@ -61,57 +61,6 @@
                                 </div>
                             </td>
                         </tr>
-
-                        <!-- Modal Detail Mahasiswa -->
-                        <div class="modal fade" id="studentModal{{ $student->id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content rounded-4 border-0 shadow">
-                                    <div class="modal-header bg-dark text-white rounded-top-4">
-                                        <h5 class="modal-title fw-bold"><i class="bi bi-person-lines-fill me-2"></i> Detail Mahasiswa</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-4">
-                                        <table class="table table-borderless mb-0">
-                                            <tr><th width="35%" class="text-muted">NIM:</th><td class="fw-bold text-primary">{{ $student->nim }}</td></tr>
-                                            <tr><th class="text-muted">Nama:</th><td class="fw-bold">{{ $student->nama }}</td></tr>
-                                            <tr><th class="text-muted">Angkatan:</th><td>{{ $student->angkatan }}</td></tr>
-                                            <tr><th class="text-muted">No. Tlp:</th><td>{{ $student->no_tlp }}</td></tr>
-                                            <tr><th class="text-muted">Email:</th><td>{{ $student->email }}</td></tr>
-                                            <tr><th class="text-muted">Status Lulus:</th>
-                                                <td>
-                                                    @if(strtolower($student->status_lulus) == 'lulus')
-                                                        <span class="badge bg-success">Lulus</span>
-                                                    @else
-                                                        <span class="badge bg-warning text-dark">Belum Lulus</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="text-muted">Status Hardcover:</th>
-                                                <td>
-                                                    @if($student->submissions && $student->submissions->count() > 0)
-                                                        @foreach($student->submissions as $sub)
-                                                            <div class="mb-1">
-                                                                <span class="badge {{ strtolower($sub->tipe) == 'skripsi' ? 'badge-skripsi' : (strtolower($sub->tipe) == 'kkp' ? 'badge-kkp' : 'badge-ta') }}">
-                                                                    {{ strtoupper($sub->tipe) }}
-                                                                </span>
-                                                                <span class="small ms-1">({{ $sub->status }})</span>
-                                                            </div>
-                                                        @endforeach
-                                                    @else
-                                                        <span class="text-muted small">Belum ada catatan penyerahan</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer bg-light rounded-bottom-4">
-                                        <a href="{{ route('students.edit', $student) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil me-1"></i> Edit Data</a>
-                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @empty
                         <tr>
                             <td colspan="7" class="text-center py-4 text-muted">Belum ada data mahasiswa. Silakan tambahkan data baru.</td>
@@ -122,4 +71,57 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Detail Mahasiswa -->
+@foreach($students as $student)
+    <div class="modal fade" id="studentModal{{ $student->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header bg-dark text-white rounded-top-4">
+                    <h5 class="modal-title fw-bold"><i class="bi bi-person-lines-fill me-2"></i> Detail Mahasiswa</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <table class="table table-borderless mb-0">
+                        <tr><th width="35%" class="text-muted">NIM:</th><td class="fw-bold text-primary">{{ $student->nim }}</td></tr>
+                        <tr><th class="text-muted">Nama:</th><td class="fw-bold">{{ $student->nama }}</td></tr>
+                        <tr><th class="text-muted">Angkatan:</th><td>{{ $student->angkatan }}</td></tr>
+                        <tr><th class="text-muted">No. Tlp:</th><td>{{ $student->no_tlp }}</td></tr>
+                        <tr><th class="text-muted">Email:</th><td>{{ $student->email }}</td></tr>
+                        <tr><th class="text-muted">Status Lulus:</th>
+                            <td>
+                                @if(strtolower($student->status_lulus) == 'lulus')
+                                    <span class="badge bg-success">Lulus</span>
+                                @else
+                                    <span class="badge bg-warning text-dark">Belum Lulus</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="text-muted">Status Hardcover:</th>
+                            <td>
+                                @if($student->submissions && $student->submissions->count() > 0)
+                                    @foreach($student->submissions as $sub)
+                                        <div class="mb-1">
+                                            <span class="badge {{ strtolower($sub->tipe) == 'skripsi' ? 'badge-skripsi' : (strtolower($sub->tipe) == 'kkp' ? 'badge-kkp' : 'badge-ta') }}">
+                                                {{ strtoupper($sub->tipe) }}
+                                            </span>
+                                            <span class="small ms-1">({{ $sub->status }})</span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <span class="text-muted small">Belum ada catatan penyerahan</span>
+                                @endif
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer bg-light rounded-bottom-4">
+                    <a href="{{ route('students.edit', $student) }}" class="btn btn-warning btn-sm"><i class="bi bi-pencil me-1"></i> Edit Data</a>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endforeach
 @endsection
