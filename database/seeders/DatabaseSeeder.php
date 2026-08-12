@@ -39,14 +39,6 @@ class DatabaseSeeder extends Seeder
             'status_lulus' => 'Lulus',
         ]);
 
-        $student2 = Student::create([
-            'nim' => '202001002',
-            'nama' => 'Siti Nurhaliza',
-            'angkatan' => '2020',
-            'no_tlp' => '081298765432',
-            'email' => 'siti.nurhaliza@student.ac.id',
-            'status_lulus' => 'Lulus',
-        ]);
 
         $student3 = Student::create([
             'nim' => '202101003',
@@ -57,14 +49,7 @@ class DatabaseSeeder extends Seeder
             'status_lulus' => 'Belum Lulus',
         ]);
 
-        $student4 = Student::create([
-            'nim' => '202101004',
-            'nama' => 'Dewi Anita Lestari',
-            'angkatan' => '2021',
-            'no_tlp' => '087711223344',
-            'email' => 'dewi.lestari@student.ac.id',
-            'status_lulus' => 'Belum Lulus',
-        ]);
+
 
         $student5 = Student::create([
             'nim' => '202001005',
@@ -85,32 +70,17 @@ class DatabaseSeeder extends Seeder
             'petugas_penerima' => 'Drs. Hendra M.T.',
         ]);
 
-        Submission::create([
-            'student_id' => $student2->id,
-            'judul' => 'Analisis Sentimen Media Sosial Menggunakan Machine Learning',
-            'tipe' => 'ta',
-            'tanggal_penyerahan' => '2026-07-20',
-            'status' => 'Sudah Menyerahkan',
-            'petugas_penerima' => 'Siti Rahma S.Kom',
-        ]);
+
 
         Submission::create([
             'student_id' => $student3->id,
-            'judul' => 'Aplikasi Manajemen Inventaris Berbasis Web pada PT Maju Jaya',
+            'judul' => 'Aplikasi Manajemen Berbasis Web pada PT Areta',
             'tipe' => 'kkp',
             'tanggal_penyerahan' => '2026-08-01',
             'status' => 'Sudah Menyerahkan',
             'petugas_penerima' => 'Rian Hidayat S.T.',
         ]);
 
-        Submission::create([
-            'student_id' => $student4->id,
-            'judul' => 'Pengembangan API E-Commerce Menggunakan Framework Laravel',
-            'tipe' => 'skripsi',
-            'tanggal_penyerahan' => null,
-            'status' => 'Belum Menyerahkan',
-            'petugas_penerima' => null,
-        ]);
 
         Submission::create([
             'student_id' => $student5->id,
