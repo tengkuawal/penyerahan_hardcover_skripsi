@@ -92,7 +92,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-file-earmark-text fs-3 text-primary"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Transkrip nilai terakhir</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Transkrip nilai terakhir</span>
                                 <small class="text-muted">Transkrip akademik resmi yang memuat nilai semester akhir.</small>
                             </div>
                         </div>
@@ -103,7 +103,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-award fs-3 text-success"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Ijazah SMA/SMK</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Ijazah SMA/SMK</span>
                                 <small class="text-muted">Legalisir stempel Asli atau Basah dari sekolah asal.</small>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-card-heading fs-3 text-info"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. KTP (Ukuran A4)</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. KTP (Ukuran A4)</span>
                                 <small class="text-muted">Fotocopy Kartu Tanda Penduduk dicetak tepat pada kertas ukuran A4.</small>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-file-earmark-person fs-3 text-warning"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Akte Kelahiran</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Akte Kelahiran</span>
                                 <small class="text-muted">Fotocopy Akta Kelahiran resmi.</small>
                             </div>
                         </div>
@@ -136,7 +136,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-people fs-3 text-danger"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Kartu Keluarga (KK)</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Kartu Keluarga (KK)</span>
                                 <small class="text-muted">Fotocopy Kartu Keluarga orang tua.</small>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-patch-check fs-3 text-primary"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Sertifikat OSMARU</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Sertifikat OSMARU</span>
                                 <small class="text-muted">Sertifikat Orientasi Siswa/Mahasiswa Baru.</small>
                             </div>
                         </div>
@@ -158,7 +158,7 @@
                         <div class="p-3 bg-white border rounded-3 h-100 d-flex align-items-center gap-3">
                             <i class="bi bi-translate fs-3 text-secondary"></i>
                             <div>
-                                <span class="fw-bold d-block text-dark">1 (satu) lembar Fc. Sertifikat TOEFL</span>
+                                <span class="fw-bold d-block text-dark">1 lembar Fc. Sertifikat TOEFL</span>
                                 <small class="text-muted">Sertifikat kemampuan bahasa Inggris TOEFL.</small>
                             </div>
                         </div>

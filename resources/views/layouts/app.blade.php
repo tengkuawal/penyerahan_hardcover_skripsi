@@ -29,6 +29,7 @@
             background-color: var(--bg-canvas);
             color: #334155;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         /* Sidebar Styling */
@@ -36,22 +37,29 @@
             width: 260px;
             background: var(--sidebar-bg);
             min-height: 100vh;
-            transition: all 0.3s;
+            transition: all 0.3s ease-in-out;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000;
+            z-index: 1050;
         }
 
         .sidebar-brand {
-            padding: 1.5rem 1.25rem;
+            padding: 1.25rem 1.25rem;
             color: #ffffff;
             font-weight: 800;
             font-size: 1.15rem;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 0.75rem;
             border-bottom: 1px solid #1e293b;
+        }
+
+        .sidebar-brand-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .sidebar-brand i {
@@ -103,6 +111,54 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        /* Overlay for Mobile Sidebar */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(2px);
+            z-index: 1040;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Responsive Mobile Media Queries */
+        @media (max-width: 991.98px) {
+            #sidebar {
+                left: -270px;
+                box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
+            }
+
+            #sidebar.show {
+                left: 0;
+            }
+
+            #content {
+                margin-left: 0 !important;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .top-navbar {
+                padding: 0.75rem 1rem !important;
+            }
+
+            .main-body {
+                padding: 1rem !important;
+            }
         }
 
         /* Top Navbar */
@@ -220,11 +276,17 @@
 </head>
 <body>
 
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
     <!-- Sidebar -->
     <div id="sidebar">
         <div class="sidebar-brand">
-            <i class="bi bi-book-half"></i>
-            <span>Hardcover App</span>
+            <div class="sidebar-brand-title">
+                <i class="bi bi-book-half"></i>
+                <span>Hardcover App</span>
+            </div>
+            <button type="button" id="sidebarClose" class="btn-close btn-close-white d-lg-none" aria-label="Close"></button>
         </div>
         <div class="py-3">
             <div class="nav-section-title">Menu Utama</div>
@@ -267,21 +329,26 @@
     <div id="content">
         <!-- Top Navbar -->
         <div class="top-navbar">
-            <h5 class="mb-0 fw-bold text-slate-700">@yield('page_heading', 'Dashboard')</h5>
-            <div class="d-flex align-items-center gap-3">
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" id="sidebarToggle" class="btn btn-light border d-lg-none px-2 py-1 me-1" title="Toggle Navigation">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <h5 class="mb-0 fw-bold text-slate-700">@yield('page_heading', 'Dashboard')</h5>
+            </div>
+            <div class="d-flex align-items-center gap-2 gap-sm-3">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle bg-indigo-100 p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: #e0e7ff; color: #4338ca;">
+                    <div class="rounded-circle bg-indigo-100 p-2 d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; background-color: #e0e7ff; color: #4338ca;">
                         <i class="bi bi-person-fill fw-bold"></i>
                     </div>
-                    <div>
+                    <div class="d-none d-sm-block">
                         <div class="fw-bold fs-7 mb-0" style="font-size: 0.85rem;">{{ Auth::user()->name ?? 'Petugas Admin' }}</div>
                         <div class="text-muted" style="font-size: 0.75rem;">{{ Auth::user()->email ?? 'admin@system.ac.id' }}</div>
                     </div>
                 </div>
                 <form action="{{ route('logout') }}" method="POST" class="m-0">
                     @csrf
-                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3">
-                        <i class="bi bi-box-arrow-right me-1"></i> Keluar
+                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-2 px-sm-3">
+                        <i class="bi bi-box-arrow-right"></i> <span class="d-none d-sm-inline">Keluar</span>
                     </button>
                 </form>
             </div>
@@ -308,8 +375,54 @@
     </div>
 
     <!-- Scripts -->
-    <script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarClose = document.getElementById('sidebarClose');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            function openSidebar() {
+                if (sidebar) sidebar.classList.add('show');
+                if (sidebarOverlay) sidebarOverlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeSidebar() {
+                if (sidebar) sidebar.classList.remove('show');
+                if (sidebarOverlay) sidebarOverlay.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', openSidebar);
+            }
+
+            if (sidebarClose) {
+                sidebarClose.addEventListener('click', closeSidebar);
+            }
+
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', closeSidebar);
+            }
+
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    if (window.innerWidth < 992) {
+                        closeSidebar();
+                    }
+                });
+            });
+
+            window.addEventListener('resize', function () {
+                if (window.innerWidth >= 992) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 </html>

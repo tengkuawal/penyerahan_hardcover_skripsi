@@ -6,25 +6,27 @@
 @section('content')
 <!-- Filter Navigation Tabs -->
 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-    <div class="btn-group p-1 bg-white rounded-3 border shadow-sm" role="group">
-        <a href="{{ route('submissions.index') }}" class="btn btn-sm {{ !request('status') && request()->routeIs('submissions.index') ? 'btn-dark' : 'btn-light border-0' }}">
-            <i class="bi bi-collection-fill me-1"></i> Semua Data
-        </a>
-        <a href="{{ route('submissions.index', ['status' => 'sudah']) }}" class="btn btn-sm {{ request('status') == 'sudah' ? 'btn-success text-white fw-bold' : 'btn-light border-0' }}">
-            <i class="bi bi-check-circle-fill me-1"></i> Sudah Menyerahkan
-        </a>
-        <a href="{{ route('submissions.index', ['status' => 'belum']) }}" class="btn btn-sm {{ request('status') == 'belum' ? 'btn-danger text-white fw-bold' : 'btn-light border-0' }}">
-            <i class="bi bi-exclamation-circle-fill me-1"></i> Belum Menyerahkan
-        </a>
-        <a href="{{ route('submissions.byType', 'skripsi') }}" class="btn btn-sm {{ request()->is('submissions/type/skripsi') ? 'btn-warning text-dark fw-bold' : 'btn-light border-0' }}">
-            <i class="bi bi-bookmark-star-fill text-warning me-1"></i> Skripsi
-        </a>
-        <a href="{{ route('submissions.byType', 'kkp') }}" class="btn btn-sm {{ request()->is('submissions/type/kkp') ? 'btn-success fw-bold' : 'btn-light border-0' }}">
-            <i class="bi bi-journal-check text-success me-1"></i> KKP
-        </a>
-        <a href="{{ route('submissions.byType', 'ta') }}" class="btn btn-sm {{ request()->is('submissions/type/ta') ? 'btn-primary fw-bold' : 'btn-light border-0' }}">
-            <i class="bi bi-journal-bookmark-fill text-primary me-1"></i> TA
-        </a>
+    <div class="overflow-auto pb-1 mw-100">
+        <div class="btn-group p-1 bg-white rounded-3 border shadow-sm text-nowrap" role="group">
+            <a href="{{ route('submissions.index') }}" class="btn btn-sm {{ !request('status') && request()->routeIs('submissions.index') ? 'btn-dark' : 'btn-light border-0' }}">
+                <i class="bi bi-collection-fill me-1"></i> Semua Data
+            </a>
+            <a href="{{ route('submissions.index', ['status' => 'sudah']) }}" class="btn btn-sm {{ request('status') == 'sudah' ? 'btn-success text-white fw-bold' : 'btn-light border-0' }}">
+                <i class="bi bi-check-circle-fill me-1"></i> Sudah Menyerahkan
+            </a>
+            <a href="{{ route('submissions.index', ['status' => 'belum']) }}" class="btn btn-sm {{ request('status') == 'belum' ? 'btn-danger text-white fw-bold' : 'btn-light border-0' }}">
+                <i class="bi bi-exclamation-circle-fill me-1"></i> Belum Menyerahkan
+            </a>
+            <a href="{{ route('submissions.byType', 'skripsi') }}" class="btn btn-sm {{ request()->is('submissions/type/skripsi') ? 'btn-warning text-dark fw-bold' : 'btn-light border-0' }}">
+                <i class="bi bi-bookmark-star-fill text-warning me-1"></i> Skripsi
+            </a>
+            <a href="{{ route('submissions.byType', 'kkp') }}" class="btn btn-sm {{ request()->is('submissions/type/kkp') ? 'btn-success fw-bold' : 'btn-light border-0' }}">
+                <i class="bi bi-journal-check text-success me-1"></i> KKP
+            </a>
+            <a href="{{ route('submissions.byType', 'ta') }}" class="btn btn-sm {{ request()->is('submissions/type/ta') ? 'btn-primary fw-bold' : 'btn-light border-0' }}">
+                <i class="bi bi-journal-bookmark-fill text-primary me-1"></i> TA
+            </a>
+        </div>
     </div>
 
     <a href="{{ route('submissions.create') }}" class="btn btn-primary-custom">

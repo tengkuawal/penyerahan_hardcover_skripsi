@@ -87,8 +87,7 @@
             <div class="card card-custom p-3 border-start border-4 border-warning">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="badge badge-skripsi mb-1">Skripsi (Cover Orange)</span>
-                        <h5 class="fw-bold text-dark mb-0">{{ $countSkripsi }} Hardcover</h5>
+                        <span class="badge badge-skripsi">Skripsi (Cover Orange)</span>
                     </div>
                     <i class="bi bi-chevron-right text-muted fs-4"></i>
                 </div>
@@ -100,8 +99,7 @@
             <div class="card card-custom p-3 border-start border-4 border-success">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="badge badge-kkp mb-1">KKP (Kuliah Kerja Praktek)</span>
-                        <h5 class="fw-bold text-dark mb-0">{{ $countKkp }} Hardcover</h5>
+                        <span class="badge badge-kkp">KKP (Kuliah Kerja Praktek)</span>
                     </div>
                     <i class="bi bi-chevron-right text-muted fs-4"></i>
                 </div>
@@ -113,8 +111,7 @@
             <div class="card card-custom p-3 border-start border-4 border-primary">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="badge badge-ta mb-1">Tugas Akhir / TA (Cover Biru)</span>
-                        <h5 class="fw-bold text-dark mb-0">{{ $countTa }} Hardcover</h5>
+                        <span class="badge badge-ta">Tugas Akhir / TA (Cover Biru)</span>
                     </div>
                     <i class="bi bi-chevron-right text-muted fs-4"></i>
                 </div>

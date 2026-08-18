@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Ahmad Rizky Pratama',
             'angkatan' => '2020',
             'no_tlp' => '081234567890',
-            'email' => 'ahmad.rizky@student.ac.id',
+            'email' => 'rizky@student.ac.id',
             'status_lulus' => 'Lulus',
         ]);
 
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Budi Santoso',
             'angkatan' => '2021',
             'no_tlp' => '085612345678',
-            'email' => 'budi.santoso@student.ac.id',
+            'email' => 'santoso@student.ac.id',
             'status_lulus' => 'Belum Lulus',
         ]);
 
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'nama' => 'Doni Prasetyo',
             'angkatan' => '2020',
             'no_tlp' => '081355667788',
-            'email' => 'doni.prasetyo@student.ac.id',
+            'email' => 'prasetyo@student.ac.id',
             'status_lulus' => 'Lulus',
         ]);
 
@@ -69,7 +69,6 @@ class DatabaseSeeder extends Seeder
             'status' => 'Sudah Menyerahkan',
             'petugas_penerima' => 'Drs. Hendra M.T.',
         ]);
-
 
 
         Submission::create([

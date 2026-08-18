@@ -10,9 +10,14 @@
             <h6 class="fw-bold mb-0 text-slate-800"><i class="bi bi-people-fill me-2 text-primary"></i> Daftar Mahasiswa</h6>
             <small class="text-muted">Kelola data NIM, Nama, Angkatan, Kontak, dan Status Kelulusan</small>
         </div>
-        <a href="{{ route('students.create') }}" class="btn btn-primary-custom">
-            <i class="bi bi-plus-lg me-1"></i> Tambah Mahasiswa
-        </a>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="https://drive.google.com/drive/folders/1sOXi-lpCMPzyYTJOm9_0I9TiBVC2cTcC?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success">
+                <i class="bi bi-google me-1"></i> Lihat Pengumpulan Berkas (Drive) <i class="bi bi-box-arrow-up-right ms-1 small"></i>
+            </a>
+            <a href="{{ route('students.create') }}" class="btn btn-primary-custom">
+                <i class="bi bi-plus-lg me-1"></i> Tambah Mahasiswa
+            </a>
+        </div>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
