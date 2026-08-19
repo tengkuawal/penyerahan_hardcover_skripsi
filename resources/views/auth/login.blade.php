@@ -26,13 +26,13 @@
             border: none;
         }
         .login-header {
-            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            background: linear-gradient(135deg, #004aad 0%, #00337a 100%);
             color: white;
             padding: 2.5rem 2rem 2rem;
             text-align: center;
         }
         .btn-indigo {
-            background: #4f46e5;
+            background: #004aad;
             color: white;
             font-weight: 600;
             padding: 0.75rem 1rem;
@@ -40,7 +40,7 @@
             transition: all 0.2s;
         }
         .btn-indigo:hover {
-            background: #4338ca;
+            background: #00337a;
             color: white;
         }
     </style>
@@ -51,10 +51,10 @@
             <div class="col-md-5 col-lg-4">
                 <div class="card login-card">
                     <div class="login-header">
-                        <div class="d-inline-flex p-3 bg-white bg-opacity-10 rounded-circle mb-3">
-                            <i class="bi bi-book-half fs-1 text-white"></i>
+                        <div class="d-inline-block p-2 bg-white rounded-3 mb-3 shadow-sm">
+                            <img src="{{ asset('logo-areta.jpg') }}" alt="Areta Logo" style="max-height: 55px; width: auto;">
                         </div>
-                        <h4 class="fw-bold mb-1">Hardcover System</h4>
+                        <div style="font-size: 0.85rem; font-weight: 500; color: rgba(255, 255, 255, 0.8); letter-spacing: 0.5px;" class="mb-1">hardcover App</div>
                         <p class="small text-white-50 mb-0">Sistem Penyerahan Hardcover Mahasiswa</p>
                     </div>
                     <div class="card-body p-4">
@@ -93,7 +93,7 @@
                         </form>
 
                         <div class="mt-4 p-3 bg-light rounded-3 text-center border">
-                            <span class="badge bg-indigo text-indigo bg-opacity-10 mb-1" style="color: #4f46e5;">Demo Credentials</span>
+                            <span class="badge bg-opacity-10 mb-1" style="background-color: rgba(0,74,173,0.1); color: #004aad;">Demo Credentials</span>
                             <div class="small text-muted">Email: <strong>admin@admin.com</strong></div>
                             <div class="small text-muted">Password: <strong>password</strong></div>
                         </div>

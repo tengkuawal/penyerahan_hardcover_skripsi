@@ -14,12 +14,12 @@
     
     <style>
         :root {
-            --primary-color: #4f46e5;
-            --primary-hover: #4338ca;
+            --primary-color: #004aad;
+            --primary-hover: #00337a;
             --sidebar-bg: #0f172a;
             --sidebar-hover: #1e293b;
             --sidebar-text: #94a3b8;
-            --sidebar-active: #6366f1;
+            --sidebar-active: #004aad;
             --bg-canvas: #f8fafc;
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
         }
@@ -281,12 +281,14 @@
 
     <!-- Sidebar -->
     <div id="sidebar">
-        <div class="sidebar-brand">
-            <div class="sidebar-brand-title">
-                <i class="bi bi-book-half"></i>
-                <span>Hardcover App</span>
+        <div class="sidebar-brand text-center d-flex flex-column align-items-center py-3">
+            <div class="d-flex justify-content-between align-items-center w-100 mb-2">
+                <div class="mx-auto text-center">
+                    <img src="{{ asset('logo-areta.jpg') }}" alt="Areta Logo" style="max-height: 45px; width: auto; max-width: 100%; border-radius: 4px;" class="bg-white p-1">
+                    <div style="font-size: 0.75rem; font-weight: 500; color: #94a3b8; margin-top: 4px; letter-spacing: 0.5px;">hardcover App</div>
+                </div>
+                <button type="button" id="sidebarClose" class="btn-close btn-close-white d-lg-none position-absolute end-0 me-3" aria-label="Close"></button>
             </div>
-            <button type="button" id="sidebarClose" class="btn-close btn-close-white d-lg-none" aria-label="Close"></button>
         </div>
         <div class="py-3">
             <div class="nav-section-title">Menu Utama</div>

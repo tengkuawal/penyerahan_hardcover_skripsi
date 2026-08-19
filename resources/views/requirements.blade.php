@@ -60,11 +60,8 @@
     <!-- Requirements Checklist Card -->
     <div class="col-12">
         <div class="card card-custom">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <h6 class="fw-bold mb-0 text-slate-800"><i class="bi bi-list-check me-2 text-indigo" style="color: #4f46e5;"></i> Daftar Lengkap Persyaratan</h6>
-                <a href="https://bit.ly/panduanpro_skripsi" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                    <i class="bi bi-box-arrow-up-right me-1"></i> Panduan Menulis Proposal
-                </a>
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h6 class="fw-bold mb-0 text-slate-800"><i class="bi bi-list-check me-2 text-primary"></i> Daftar Lengkap Persyaratan</h6>
             </div>
             <div class="card-body p-4">
                 <div class="row g-3">
@@ -72,16 +69,23 @@
                     <!-- Point 1 -->
                     <div class="col-12 p-3 bg-light rounded-3 border">
                         <div class="d-flex align-items-start gap-3">
-                            <span class="badge bg-indigo text-white rounded-circle p-2 px-3 fw-bold" style="background-color: #4f46e5;">1</span>
-                            <div>
+                            <span class="badge text-white rounded-circle p-2 px-3 fw-bold" style="background-color: #004aad;">1</span>
+                            <div class="w-100">
                                 <h6 class="fw-bold mb-1">Pengumpulan Proposal Tugas Akhir / Skripsi</h6>
-                                <p class="mb-1 text-slate-600">Mengumpulkan minimal 2 judul proposal Tugas Akhir atau Skripsi.</p>
+                                <p class="mb-2 text-slate-600">Mengumpulkan minimal 2 judul proposal Tugas Akhir atau Skripsi.</p>
                                 <div class="d-flex gap-2 align-items-center flex-wrap">
                                     <span class="badge badge-ta">Proposal TA: Cover Biru</span>
                                     <span class="badge badge-skripsi">Proposal Skripsi: Cover Orange</span>
-                                    <a href="https://bit.ly/panduanpro_skripsi" target="_blank" class="small text-primary text-decoration-none fw-semibold">
-                                        <i class="bi bi-link-45deg"></i> https://bit.ly/panduanpro_skripsi
-                                    </a>
+                                    <div class="ms-auto d-flex align-items-center gap-2">
+                                        <i class="bi bi-link-45deg text-primary fs-5"></i>
+                                        <select class="form-select form-select-sm border-primary text-primary fw-semibold" style="width: auto; min-width: 240px;" onchange="if(this.value) window.open(this.value, '_blank')">
+                                            <option value="" selected disabled>-- Pilih Link Panduan --</option>
+                                            <option value="https://bit.ly/panduanpro_skripsi">bit.ly/panduanpro_skripsi (Proposal)</option>
+                                            <option value="https://bit.ly/panduan_penulisanskripsi">bit.ly/pandual_penulisanskripsi (Skripsi)</option>
+                                            <option value="https://bit.ly/panduanpenulisanta">bit.ly/panduanpenulisanta (TA)</option>
+                                            <option value="https://bit.ly/panduan_penulisanjurnal">bit.ly/panduan_penulisanjurnal (Jurnal)</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +253,15 @@
                             <td>
                                 TA: Cover Biru<br>
                                 Skripsi: Cover Orange<br>
-                                <a href="https://bit.ly/panduanpro_skripsi" target="_blank" class="small">Link Panduan</a>
+                                <div class="mt-1">
+                                    <select class="form-select form-select-sm border-primary text-primary small py-0 px-2" style="font-size: 0.8rem;" onchange="if(this.value) window.open(this.value, '_blank')">
+                                        <option value="" selected disabled>-- Link Panduan --</option>
+                                        <option value="https://bit.ly/panduanpro_skripsi">bit.ly/panduanpro_skripsi</option>
+                                        <option value="https://bit.ly/panduan_penulisanskripsi">bit.ly/pandual_penulisanskripsi</option>
+                                        <option value="https://bit.ly/panduanpenulisanta">bit.ly/panduanpenulisanta</option>
+                                        <option value="https://bit.ly/panduan_penulisanjurnal">bit.ly/panduan_penulisanjurnal</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
                         <tr>
