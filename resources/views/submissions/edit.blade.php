@@ -28,7 +28,8 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Pilih Mahasiswa <span class="text-danger">*</span></label>
-                            <select name="student_id" class="form-select" required>
+                            <select name="student_id" id="student_id" class="form-select select2-search" required>
+                                <option value="">-- Pilih Mahasiswa (NIM - Nama) --</option>
                                 @foreach($students as $student)
                                     <option value="{{ $student->id }}" {{ old('student_id', $submission->student_id) == $student->id ? 'selected' : '' }}>
                                         {{ $student->nim }} - {{ $student->nama }}
@@ -75,3 +76,16 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.select2-search').select2({
+            theme: 'bootstrap-5',
+            placeholder: '-- Pilih Mahasiswa (NIM - Nama) --',
+            allowClear: true,
+            width: '100%'
+        });
+    });
+</script>
+@endpush

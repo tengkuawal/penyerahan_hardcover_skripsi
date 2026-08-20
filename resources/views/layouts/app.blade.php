@@ -11,6 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Select2 CSS & Bootstrap 5 Theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css">
+    @stack('styles')
     
     <style>
         :root {
@@ -272,6 +276,36 @@
             padding: 0.85rem 1rem;
             font-size: 0.9rem;
         }
+
+        /* Select2 Custom Styling */
+        .select2-container--bootstrap-5 .select2-selection {
+            border-color: #dee2e6;
+            min-height: 42px;
+            padding: 0.4rem 0.75rem;
+            font-size: 0.95rem;
+            border-radius: 8px;
+        }
+        .select2-container--bootstrap-5.select2-container--focus .select2-selection,
+        .select2-container--bootstrap-5.select2-container--open .select2-selection {
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+        .select2-container--bootstrap-5 .select2-dropdown {
+            border-color: #cbd5e1;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 1060;
+        }
+        .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+        }
+        .select2-container--bootstrap-5 .select2-results__option--highlighted[aria-selected] {
+            background-color: var(--primary-color);
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -377,7 +411,9 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('sidebar');
