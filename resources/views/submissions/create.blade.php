@@ -42,7 +42,7 @@
                                 <option value="">-- Pilih Jenis --</option>
                                 <option value="skripsi" {{ old('tipe') == 'skripsi' ? 'selected' : '' }}>Skripsi (Proposal Cover Orange)</option>
                                 <option value="kkp" {{ old('tipe') == 'kkp' ? 'selected' : '' }}>KKP (Kuliah Kerja Praktek)</option>
-                                <option value="ta" {{ old('tipe') == 'ta' ? 'selected' : '' }}>TA / Tugas Akhir (Proposal Cover Biru)</option>
+                                <option value="ta" {{ old('tipe') == 'ta' ? 'selected' : '' }}>TA / Tugas Akhir</option>
                             </select>
                         </div>
                         <div class="col-12">

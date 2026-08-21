@@ -35,8 +35,8 @@
                 </div>
                 <div>
                     <h6 class="fw-bold text-dark mb-1">Proposal Tugas Akhir (TA)</h6>
-                    <p class="small text-muted mb-2">Mengumpulkan minimal 2 judul proposal TA. Wajib menggunakan <strong>Cover Biru</strong>.</p>
-                    <span class="badge badge-ta">Cover Warna Biru</span>
+                    <p class="small text-muted mb-2">Mengumpulkan minimal 2 judul proposal TA.</p>
+                    <span class="badge badge-ta">Proposal TA</span>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                                 <h6 class="fw-bold mb-1">Pengumpulan Proposal Tugas Akhir / Skripsi</h6>
                                 <p class="mb-2 text-slate-600">Mengumpulkan minimal 2 judul proposal Tugas Akhir atau Skripsi.</p>
                                 <div class="d-flex gap-2 align-items-center flex-wrap">
-                                    <span class="badge badge-ta">Proposal TA: Cover Biru</span>
+                                    <span class="badge badge-ta">Proposal TA</span>
                                     <span class="badge badge-skripsi">Proposal Skripsi: Cover Orange</span>
                                     <div class="ms-auto d-flex align-items-center gap-2">
                                         <i class="bi bi-link-45deg text-primary fs-5"></i>
@@ -251,7 +251,7 @@
                             <td class="text-center fw-bold">1</td>
                             <td>Minimal 2 Proposal TA / Skripsi</td>
                             <td>
-                                TA: Cover Biru<br>
+                                Proposal TA<br>
                                 Skripsi: Cover Orange<br>
                                 <div class="mt-1">
                                     <select class="form-select form-select-sm border-primary text-primary small py-0 px-2" style="font-size: 0.8rem;" onchange="if(this.value) window.open(this.value, '_blank')">

@@ -10,21 +10,44 @@ class SubmissionsController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Submission::with('student');
+        $query = Submission::query()
+            ->join('students', 'submissions.student_id', '=', 'students.id')
+            ->select('submissions.*')
+            ->with('student');
+
         $statusFilter = $request->get('status');
 
         if ($statusFilter === 'sudah') {
-            $query->whereIn('status', ['sudah', 'Sudah Menyerahkan']);
+            $query->whereIn('submissions.status', ['sudah', 'Sudah Menyerahkan']);
         } elseif ($statusFilter === 'belum') {
-            $query->whereIn('status', ['belum', 'Belum Menyerahkan']);
+            $query->whereIn('submissions.status', ['belum', 'Belum Menyerahkan']);
         }
 
-        $submissions = $query->latest()->get();
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('submissions.judul', 'like', "%{$search}%")
+                  ->orWhere('submissions.petugas_penerima', 'like', "%{$search}%")
+                  ->orWhere('submissions.tipe', 'like', "%{$search}%")
+                  ->orWhere('students.nama', 'like', "%{$search}%")
+                  ->orWhere('students.nim', 'like', "%{$search}%");
+            });
+        }
+
+        $submissions = $query->orderBy('students.nama', 'asc')->get();
 
         // Mahasiswa yang belum memiliki record penyerahan sama sekali (jika filter 'belum')
         $studentsWithoutSubmissions = collect();
         if ($statusFilter === 'belum') {
-            $studentsWithoutSubmissions = Student::whereDoesntHave('submissions')->get();
+            $studentQuery = Student::whereDoesntHave('submissions');
+            if ($request->filled('search')) {
+                $search = trim($request->search);
+                $studentQuery->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
+                      ->orWhere('nim', 'like', "%{$search}%");
+                });
+            }
+            $studentsWithoutSubmissions = $studentQuery->orderBy('nama', 'asc')->get();
         }
 
         return view('submissions.index', compact('submissions', 'statusFilter', 'studentsWithoutSubmissions'));
@@ -94,19 +117,35 @@ class SubmissionsController extends Controller
         return redirect()->route('submissions.index')->with('success', 'Data penyerahan hardcover berhasil dihapus.');
     }
 
-    public function byType($type)
+    public function byType(Request $request, $type)
     {
         $type = strtolower($type);
         if (!in_array($type, ['skripsi', 'kkp', 'ta'])) {
             return redirect()->route('submissions.index');
         }
 
-        $submissions = Submission::with('student')->where('tipe', $type)->latest()->get();
+        $query = Submission::query()
+            ->join('students', 'submissions.student_id', '=', 'students.id')
+            ->select('submissions.*')
+            ->where('submissions.tipe', $type)
+            ->with('student');
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('submissions.judul', 'like', "%{$search}%")
+                  ->orWhere('submissions.petugas_penerima', 'like', "%{$search}%")
+                  ->orWhere('students.nama', 'like', "%{$search}%")
+                  ->orWhere('students.nim', 'like', "%{$search}%");
+            });
+        }
+
+        $submissions = $query->orderBy('students.nama', 'asc')->get();
 
         $titles = [
             'skripsi' => 'Skripsi (Cover Orange)',
             'kkp' => 'KKP (Kuliah Kerja Praktek)',
-            'ta' => 'Tugas Akhir / TA (Cover Biru)',
+            'ta' => 'Tugas Akhir (TA)',
         ];
         $title = $titles[$type] ?? strtoupper($type);
 

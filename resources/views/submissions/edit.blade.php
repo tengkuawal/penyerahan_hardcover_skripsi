@@ -42,7 +42,7 @@
                             <select name="tipe" class="form-select" required>
                                 <option value="skripsi" {{ old('tipe', strtolower($submission->tipe)) == 'skripsi' ? 'selected' : '' }}>Skripsi (Proposal Cover Orange)</option>
                                 <option value="kkp" {{ old('tipe', strtolower($submission->tipe)) == 'kkp' ? 'selected' : '' }}>KKP (Kuliah Kerja Praktek)</option>
-                                <option value="ta" {{ old('tipe', strtolower($submission->tipe)) == 'ta' ? 'selected' : '' }}>TA / Tugas Akhir (Proposal Cover Biru)</option>
+                                <option value="ta" {{ old('tipe', strtolower($submission->tipe)) == 'ta' ? 'selected' : '' }}>TA / Tugas Akhir</option>
                             </select>
                         </div>
                         <div class="col-12">

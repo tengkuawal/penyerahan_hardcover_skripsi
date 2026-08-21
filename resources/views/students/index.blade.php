@@ -4,28 +4,49 @@
 @section('page_heading', 'Data Mahasiswa')
 
 @section('content')
+<!-- Search Bar & Actions Row -->
+<div class="card card-custom mb-4">
+    <div class="card-body p-3">
+        <form action="{{ route('students.index') }}" method="GET" id="searchForm" onsubmit="return false;" class="row g-2 align-items-center">
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="bi bi-search"></i></span>
+                    <input type="text" id="liveSearchInput" name="search" class="form-control border-start-0 border-end-0 ps-0" placeholder="Ketik untuk mencari Mahasiswa secara real-time (NIM, Nama, Angkatan, No Telp, Email)..." value="{{ request('search') }}" autocomplete="off">
+                    <button type="button" id="clearSearchBtn" class="btn btn-white border-start-0 border text-muted" style="display: none;" title="Hapus Pencarian">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                    <span class="input-group-text bg-light text-muted small fw-semibold" id="searchCounterBadge">
+                        {{ count($students) }} Record
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card card-custom">
-    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
         <div>
             <h6 class="fw-bold mb-0 text-slate-800"><i class="bi bi-people-fill me-2 text-primary"></i> Daftar Mahasiswa</h6>
             <small class="text-muted">Kelola data NIM, Nama, Angkatan, Kontak, dan Status Kelulusan</small>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-2"><i class="bi bi-sort-alpha-down me-1"></i> Abjad (A-Z)</span>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <a href="https://drive.google.com/drive/folders/1sOXi-lpCMPzyYTJOm9_0I9TiBVC2cTcC?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success">
-                <i class="bi bi-google me-1"></i> Lihat Pengumpulan Berkas (Drive) <i class="bi bi-box-arrow-up-right ms-1 small"></i>
+            <a href="https://drive.google.com/drive/folders/1sOXi-lpCMPzyYTJOm9_0I9TiBVC2cTcC?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-success btn-sm d-flex align-items-center">
+                <i class="bi bi-google me-1"></i> <span>Drive Berkas</span> <i class="bi bi-box-arrow-up-right ms-1 small"></i>
             </a>
-            <a href="{{ route('students.create') }}" class="btn btn-primary-custom">
+            <a href="{{ route('students.create') }}" class="btn btn-primary-custom btn-sm d-flex align-items-center">
                 <i class="bi bi-plus-lg me-1"></i> Tambah Mahasiswa
             </a>
         </div>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
-            <table class="table table-custom table-hover align-middle mb-0">
+            <table class="table table-custom table-hover align-middle mb-0" id="studentsTable">
                 <thead>
                     <tr>
                         <th class="text-nowrap">NIM</th>
-                        <th class="text-nowrap">Nama Mahasiswa</th>
+                        <th class="text-nowrap">Nama Mahasiswa <i class="bi bi-arrow-down-short text-primary"></i></th>
                         <th class="text-nowrap">Angkatan</th>
                         <th class="text-nowrap">No. Telepon</th>
                         <th class="text-nowrap">Email</th>
@@ -35,9 +56,9 @@
                 </thead>
                 <tbody>
                     @forelse($students as $student)
-                        <tr>
+                        <tr class="student-row">
                             <td class="fw-bold text-slate-800 text-nowrap">{{ $student->nim }}</td>
-                            <td class="text-nowrap">{{ $student->nama }}</td>
+                            <td class="text-nowrap fw-semibold">{{ $student->nama }}</td>
                             <td class="text-nowrap"><span class="badge bg-light text-dark border">{{ $student->angkatan }}</span></td>
                             <td class="text-nowrap">{{ $student->no_tlp }}</td>
                             <td class="text-nowrap">{{ $student->email }}</td>
@@ -67,10 +88,17 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
+                    @endforelse
+                    <tr id="noResultsRow" style="display: none;">
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            <i class="bi bi-search me-1"></i> Tidak ada data mahasiswa yang cocok dengan pencarian "<strong id="searchTermDisplay"></strong>".
+                        </td>
+                    </tr>
+                    @if(count($students) === 0)
+                        <tr id="initialEmptyRow">
                             <td colspan="7" class="text-center py-4 text-muted">Belum ada data mahasiswa. Silakan tambahkan data baru.</td>
                         </tr>
-                    @endforelse
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -130,3 +158,68 @@
     </div>
 @endforeach
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('liveSearchInput');
+        const clearBtn = document.getElementById('clearSearchBtn');
+        const counterBadge = document.getElementById('searchCounterBadge');
+        const rows = document.querySelectorAll('.student-row');
+        const noResultsRow = document.getElementById('noResultsRow');
+        const searchTermDisplay = document.getElementById('searchTermDisplay');
+        const initialEmptyRow = document.getElementById('initialEmptyRow');
+
+        function filterTable() {
+            const query = input.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            if (clearBtn) {
+                clearBtn.style.display = query.length > 0 ? 'inline-block' : 'none';
+            }
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (initialEmptyRow) {
+                initialEmptyRow.style.display = (rows.length === 0) ? '' : 'none';
+            }
+
+            if (noResultsRow) {
+                if (rows.length > 0 && visibleCount === 0 && query.length > 0) {
+                    noResultsRow.style.display = '';
+                    if (searchTermDisplay) searchTermDisplay.textContent = input.value;
+                } else {
+                    noResultsRow.style.display = 'none';
+                }
+            }
+
+            if (counterBadge) {
+                counterBadge.textContent = visibleCount + ' Record';
+            }
+        }
+
+        if (input) {
+            input.addEventListener('input', filterTable);
+            if (input.value) {
+                filterTable();
+            }
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                input.value = '';
+                filterTable();
+                input.focus();
+            });
+        }
+    });
+</script>
+@endpush

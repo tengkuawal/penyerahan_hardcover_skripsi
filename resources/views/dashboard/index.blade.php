@@ -111,7 +111,7 @@
             <div class="card card-custom p-3 border-start border-4 border-primary">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <span class="badge badge-ta">Tugas Akhir / TA (Cover Biru)</span>
+                        <span class="badge badge-ta">Tugas Akhir (TA)</span>
                     </div>
                     <i class="bi bi-chevron-right text-muted fs-4"></i>
                 </div>
@@ -214,7 +214,7 @@
                                         @elseif(strtolower($sub->tipe) == 'kkp')
                                             <span class="badge badge-kkp">KKP</span>
                                         @else
-                                            <span class="badge badge-ta">TA (Cover Biru)</span>
+                                            <span class="badge badge-ta">TA</span>
                                         @endif
                                     </td>
                                 </tr>

@@ -4,26 +4,49 @@
 @section('page_heading', 'Penyerahan Hardcover Skripsi / KKP / TA')
 
 @section('content')
+<!-- Search Bar & Filter Controls Card -->
+<div class="card card-custom mb-4">
+    <div class="card-body p-3">
+        <form action="{{ route('submissions.index') }}" method="GET" id="searchFormSub" onsubmit="return false;" class="row g-2 align-items-center">
+            @if(request('status'))
+                <input type="hidden" name="status" value="{{ request('status') }}">
+            @endif
+            <div class="col-12">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0 text-primary"><i class="bi bi-search"></i></span>
+                    <input type="text" id="liveSearchInputSub" name="search" class="form-control border-start-0 border-end-0 ps-0" placeholder="Ketik untuk mencari Penyerahan secara real-time (Nama Mahasiswa, NIM, Judul, Petugas)..." value="{{ request('search') }}" autocomplete="off">
+                    <button type="button" id="clearSearchBtnSub" class="btn btn-white border-start-0 border text-muted" style="display: none;" title="Hapus Pencarian">
+                        <i class="bi bi-x-circle-fill"></i>
+                    </button>
+                    <span class="input-group-text bg-light text-muted small fw-semibold" id="searchCounterBadgeSub">
+                        {{ count($submissions) }} Record
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 <!-- Filter Navigation Tabs -->
 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
     <div class="overflow-auto pb-1 mw-100">
         <div class="btn-group p-1 bg-white rounded-3 border shadow-sm text-nowrap" role="group">
-            <a href="{{ route('submissions.index') }}" class="btn btn-sm {{ !request('status') && request()->routeIs('submissions.index') ? 'btn-dark' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.index', array_filter(['search' => request('search')])) }}" class="btn btn-sm {{ !request('status') && request()->routeIs('submissions.index') ? 'btn-dark' : 'btn-light border-0' }}">
                 <i class="bi bi-collection-fill me-1"></i> Semua Data
             </a>
-            <a href="{{ route('submissions.index', ['status' => 'sudah']) }}" class="btn btn-sm {{ request('status') == 'sudah' ? 'btn-success text-white fw-bold' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.index', array_filter(['status' => 'sudah', 'search' => request('search')])) }}" class="btn btn-sm {{ request('status') == 'sudah' ? 'btn-success text-white fw-bold' : 'btn-light border-0' }}">
                 <i class="bi bi-check-circle-fill me-1"></i> Sudah Menyerahkan
             </a>
-            <a href="{{ route('submissions.index', ['status' => 'belum']) }}" class="btn btn-sm {{ request('status') == 'belum' ? 'btn-danger text-white fw-bold' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.index', array_filter(['status' => 'belum', 'search' => request('search')])) }}" class="btn btn-sm {{ request('status') == 'belum' ? 'btn-danger text-white fw-bold' : 'btn-light border-0' }}">
                 <i class="bi bi-exclamation-circle-fill me-1"></i> Belum Menyerahkan
             </a>
-            <a href="{{ route('submissions.byType', 'skripsi') }}" class="btn btn-sm {{ request()->is('submissions/type/skripsi') ? 'btn-warning text-dark fw-bold' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.byType', ['type' => 'skripsi'] + array_filter(['search' => request('search')])) }}" class="btn btn-sm {{ request()->is('submissions/type/skripsi') ? 'btn-warning text-dark fw-bold' : 'btn-light border-0' }}">
                 <i class="bi bi-bookmark-star-fill text-warning me-1"></i> Skripsi
             </a>
-            <a href="{{ route('submissions.byType', 'kkp') }}" class="btn btn-sm {{ request()->is('submissions/type/kkp') ? 'btn-success fw-bold' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.byType', ['type' => 'kkp'] + array_filter(['search' => request('search')])) }}" class="btn btn-sm {{ request()->is('submissions/type/kkp') ? 'btn-success fw-bold' : 'btn-light border-0' }}">
                 <i class="bi bi-journal-check text-success me-1"></i> KKP
             </a>
-            <a href="{{ route('submissions.byType', 'ta') }}" class="btn btn-sm {{ request()->is('submissions/type/ta') ? 'btn-primary fw-bold' : 'btn-light border-0' }}">
+            <a href="{{ route('submissions.byType', ['type' => 'ta'] + array_filter(['search' => request('search')])) }}" class="btn btn-sm {{ request()->is('submissions/type/ta') ? 'btn-primary fw-bold' : 'btn-light border-0' }}">
                 <i class="bi bi-journal-bookmark-fill text-primary me-1"></i> TA
             </a>
         </div>
@@ -35,28 +58,37 @@
 </div>
 
 <!-- Active Filter Banner if filtered -->
-@if(request('status'))
-    <div class="alert {{ request('status') == 'sudah' ? 'alert-success' : 'alert-danger' }} alert-dismissible fade show rounded-3 shadow-sm mb-4">
-        <div class="d-flex align-items-center justify-content-between">
+@if(request('status') || request('search'))
+    <div class="alert alert-info alert-dismissible fade show rounded-3 shadow-sm mb-4">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-                <i class="bi {{ request('status') == 'sudah' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill' }} me-2 fs-5"></i>
-                <strong>Filter Aktif:</strong> Halaman menampilkan daftar mahasiswa yang <strong>{{ request('status') == 'sudah' ? 'SUDAH' : 'BELUM' }} MENYERAHKAN</strong> Hardcover.
+                <i class="bi bi-funnel-fill me-2 fs-5"></i>
+                <strong>Filter Aktif:</strong>
+                @if(request('status'))
+                    Status <strong>{{ request('status') == 'sudah' ? 'SUDAH MENYERAHKAN' : 'BELUM MENYERAHKAN' }}</strong>
+                @endif
+                @if(request('search'))
+                    {{ request('status') ? '| ' : '' }}Pencarian "<strong>{{ request('search') }}</strong>"
+                @endif
             </div>
-            <a href="{{ route('submissions.index') }}" class="btn btn-sm btn-outline-dark rounded-pill px-3 ms-2">Reset Filter</a>
+            <a href="{{ route('submissions.index') }}" class="btn btn-sm btn-outline-dark rounded-pill px-3">Reset Semua Filter</a>
         </div>
     </div>
 @endif
 
 <div class="card card-custom">
-    <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
-        <h6 class="fw-bold mb-0 text-slate-800">
-            <i class="bi bi-journal-text me-2 text-primary"></i> Data Penyerahan Hardcover 
-            @if(request('status') == 'sudah')
-                <span class="badge bg-success ms-1">SUDAH MENYERAHKAN</span>
-            @elseif(request('status') == 'belum')
-                <span class="badge bg-danger ms-1">BELUM MENYERAHKAN</span>
-            @endif
-        </h6>
+    <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center flex-wrap gap-2">
+            <h6 class="fw-bold mb-0 text-slate-800">
+                <i class="bi bi-journal-text me-2 text-primary"></i> Data Penyerahan Hardcover 
+                @if(request('status') == 'sudah')
+                    <span class="badge bg-success ms-1">SUDAH MENYERAHKAN</span>
+                @elseif(request('status') == 'belum')
+                    <span class="badge bg-danger ms-1">BELUM MENYERAHKAN</span>
+                @endif
+            </h6>
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle"><i class="bi bi-sort-alpha-down me-1"></i> Abjad (A-Z)</span>
+        </div>
         <span class="badge bg-dark rounded-pill px-3 py-2">{{ count($submissions) }} Record</span>
     </div>
     <div class="card-body p-0">
@@ -65,7 +97,7 @@
                 <thead>
                     <tr>
                         <th class="text-nowrap">NIM</th>
-                        <th class="text-nowrap">Nama Mahasiswa</th>
+                        <th class="text-nowrap">Nama Mahasiswa <i class="bi bi-arrow-down-short text-primary"></i></th>
                         <th>Judul Hardcover</th>
                         <th class="text-nowrap">Tipe</th>
                         <th class="text-nowrap">Tgl Penyerahan</th>
@@ -76,9 +108,9 @@
                 </thead>
                 <tbody>
                     @forelse($submissions as $sub)
-                        <tr>
+                        <tr class="sub-row">
                             <td class="fw-bold text-slate-800 text-nowrap">{{ $sub->student->nim ?? '-' }}</td>
-                            <td class="text-nowrap">{{ $sub->student->nama ?? '-' }}</td>
+                            <td class="text-nowrap fw-semibold">{{ $sub->student->nama ?? '-' }}</td>
                             <td>
                                 <a href="javascript:void(0)" class="text-decoration-none text-dark fw-semibold" data-bs-toggle="modal" data-bs-target="#detailSubModal{{ $sub->id }}">
                                     {{ $sub->judul }}
@@ -121,10 +153,17 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
+                    @endforelse
+                    <tr id="noResultsRowSub" style="display: none;">
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            <i class="bi bi-search me-1"></i> Tidak ada data penyerahan yang cocok dengan pencarian "<strong id="searchTermDisplaySub"></strong>".
+                        </td>
+                    </tr>
+                    @if(count($submissions) === 0)
+                        <tr id="initialEmptyRowSub">
                             <td colspan="8" class="text-center py-4 text-muted">Tidak ada data penyerahan hardcover yang cocok dengan filter.</td>
                         </tr>
-                    @endforelse
+                    @endif
                 </tbody>
             </table>
         </div>
@@ -167,7 +206,7 @@
                                         @elseif(strtolower($sub->tipe) == 'kkp')
                                             <span class="badge badge-kkp">KKP</span>
                                         @else
-                                            <span class="badge badge-ta">TA (Cover Biru)</span>
+                                            <span class="badge badge-ta">TA</span>
                                         @endif
                                     </td>
                                 </tr>
@@ -240,3 +279,68 @@
     </div>
 @endif
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('liveSearchInputSub');
+        const clearBtn = document.getElementById('clearSearchBtnSub');
+        const counterBadge = document.getElementById('searchCounterBadgeSub');
+        const rows = document.querySelectorAll('.sub-row');
+        const noResultsRow = document.getElementById('noResultsRowSub');
+        const searchTermDisplay = document.getElementById('searchTermDisplaySub');
+        const initialEmptyRow = document.getElementById('initialEmptyRowSub');
+
+        function filterTable() {
+            const query = input.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            if (clearBtn) {
+                clearBtn.style.display = query.length > 0 ? 'inline-block' : 'none';
+            }
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (initialEmptyRow) {
+                initialEmptyRow.style.display = (rows.length === 0) ? '' : 'none';
+            }
+
+            if (noResultsRow) {
+                if (rows.length > 0 && visibleCount === 0 && query.length > 0) {
+                    noResultsRow.style.display = '';
+                    if (searchTermDisplay) searchTermDisplay.textContent = input.value;
+                } else {
+                    noResultsRow.style.display = 'none';
+                }
+            }
+
+            if (counterBadge) {
+                counterBadge.textContent = visibleCount + ' Record';
+            }
+        }
+
+        if (input) {
+            input.addEventListener('input', filterTable);
+            if (input.value) {
+                filterTable();
+            }
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function () {
+                input.value = '';
+                filterTable();
+                input.focus();
+            });
+        }
+    });
+</script>
+@endpush

@@ -71,19 +71,19 @@
                                 <label class="form-label fw-semibold small text-secondary">Alamat Email</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
-                                    <input type="email" name="email" class="form-control bg-light border-start-0" value="{{ old('email', 'admin@admin.com') }}" placeholder="admin@admin.com" required autofocus>
+                                    <input type="email" name="email" class="form-control bg-light border-start-0" value="{{ old('email') }}" placeholder="Masukkan alamat email..." required autofocus>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold small text-secondary">Password</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-lock"></i></span>
-                                    <input type="password" name="password" class="form-control bg-light border-start-0" value="password" placeholder="••••••••" required>
+                                    <input type="password" name="password" class="form-control bg-light border-start-0" value="" placeholder="Masukkan password..." required>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div class="form-check">
-                                    <input type="checkbox" name="remember" class="form-check-input" id="remember" checked>
+                                    <input type="checkbox" name="remember" class="form-check-input" id="remember">
                                     <label class="form-check-label small text-muted" for="remember">Ingat Saya</label>
                                 </div>
                             </div>
@@ -91,12 +91,6 @@
                                 <i class="bi bi-box-arrow-in-right me-1"></i> Masuk ke System
                             </button>
                         </form>
-
-                        <div class="mt-4 p-3 bg-light rounded-3 text-center border">
-                            <span class="badge bg-opacity-10 mb-1" style="background-color: rgba(0,74,173,0.1); color: #004aad;">Demo Credentials</span>
-                            <div class="small text-muted">Email: <strong>admin@admin.com</strong></div>
-                            <div class="small text-muted">Password: <strong>password</strong></div>
-                        </div>
                     </div>
                 </div>
             </div>
