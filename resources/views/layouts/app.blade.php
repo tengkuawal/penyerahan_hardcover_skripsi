@@ -350,7 +350,7 @@
             </a>
             <a href="{{ route('submissions.byType', 'ta') }}" class="sidebar-link {{ request()->is('submissions/type/ta') ? 'active' : '' }}">
                 <i class="bi bi-journal-bookmark-fill text-primary"></i>
-                <span>TA</span>
+                <span>TA (Blue)</span>
             </a>
 
             <div class="nav-section-title">Informasi & Verifikasi</div>

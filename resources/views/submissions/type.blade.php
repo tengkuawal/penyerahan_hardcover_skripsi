@@ -59,7 +59,7 @@
             @if($type == 'skripsi')
                 <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Proposal Skripsi Menggunakan Cover Warna <strong>Orange</strong></small>
             @elseif($type == 'ta')
-                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Proposal Tugas Akhir (TA)</small>
+                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Proposal Tugas Akhir (TA) Menggunakan Cover Warna <strong>Blue</strong></small>
             @else
                 <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Laporan Kuliah Kerja Praktek (KKP)</small>
             @endif

@@ -145,7 +145,7 @@ class SubmissionsController extends Controller
         $titles = [
             'skripsi' => 'Skripsi (Cover Orange)',
             'kkp' => 'KKP (Kuliah Kerja Praktek)',
-            'ta' => 'Tugas Akhir (TA)',
+            'ta' => 'TA (Cover Blue)',
         ];
         $title = $titles[$type] ?? strtoupper($type);
 
